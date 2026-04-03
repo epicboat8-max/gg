@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Manga Image Translator - Full Page</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .fullpage-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .fullpage-header {
+      background: linear-gradient(135deg, #4285F4, #34A853);
+      color: white;
+      padding: 40px 30px;
+      text-align: center;
+    }
+
+    .fullpage-header h1 {
+      margin: 0 0 10px 0;
+      font-size: 32px;
+      font-weight: 700;
+    }
+
+    .fullpage-header p {
+      margin: 0;
+      font-size: 16px;
+      opacity: 0.95;
+    }
+
+    .fullpage-content {
+      padding: 40px 30px;
+    }
+
+    .fullpage-section {
+      margin-bottom: 30px;
+    }
+
+    .fullpage-section h2 {
+      font-size: 18px;
+      color: #333;
+      margin-top: 0;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #4285F4;
+      padding-bottom: 10px;
+    }
+
+    .fullpage-button {
+      background: linear-gradient(135deg, #4285F4, #2E7FE7);
+      color: white;
+      padding: 16px 32px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .fullpage-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(66, 133, 244, 0.4);
+    }
+
+    .fullpage-button:active {
+      transform: translateY(0);
+    }
+
+    .fullpage-button.secondary {
+      background: #f0f0f0;
+      color: #333;
+      border: 1px solid #ddd;
+    }
+
+    .fullpage-button.secondary:hover {
+      background: #e8e8e8;
+      box-shadow: none;
+    }
+
+    .fullpage-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .stat-card {
+      background: #f9f9f9;
+      padding: 15px;
+      border-radius: 8px;
+      border-left: 4px solid #4285F4;
+      text-align: center;
+    }
+
+    .stat-card .stat-value {
+      font-size: 24px;
+      font-weight: bold;
+      color: #4285F4;
+    }
+
+    .stat-card .stat-label {
+      font-size: 12px;
+      color: #666;
+      margin-top: 5px;
+    }
+
+    .fullpage-footer {
+      background: #f5f5f5;
+      padding: 20px 30px;
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+      border-top: 1px solid #eee;
+    }
+
+    .fullpage-controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .control-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .control-group label {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    .control-group select {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .close-button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #333;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .close-button:hover {
+      background: white;
+      transform: scale(1.1);
+    }
+
+    @media (max-width: 600px) {
+      .fullpage-container {
+        border-radius: 0;
+        margin: -20px;
+        min-height: 100vh;
+      }
+
+      .fullpage-stats {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="fullpage-container">
+    <div class="fullpage-header">
+      <button class="close-button" id="close-fullpage" title="Close">✕</button>
+      <h1>🖼️ Image Translator</h1>
+      <p>Translate text in images using AI and OCR</p>
+    </div>
+
+    <div class="fullpage-content">
+      <!-- Settings Section -->
+      <div class="fullpage-section">
+        <h2>⚙️ Settings</h2>
+        
+        <div class="setting-group">
+          <label for="fullpage-enable-toggle">Enable Translator</label>
+          <label class="switch">
+            <input type="checkbox" id="fullpage-enable-toggle" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="fullpage-controls">
+          <div class="control-group">
+            <label for="fullpage-language-select">Target Language</label>
+            <select id="fullpage-language-select">
+              <option value="bn">Bengali (বাংলা)</option>
+              <option value="hi">Hindi (हिंदी)</option>
+              <option value="ta">Tamil (தமிழ்)</option>
+              <option value="te">Telugu (తెలుగు)</option>
+              <option value="es">Spanish (Español)</option>
+              <option value="fr">French (Français)</option>
+              <option value="de">German (Deutsch)</option>
+              <option value="pt">Portuguese (Português)</option>
+              <option value="zh">Chinese (中文)</option>
+              <option value="ko">Korean (한국어)</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label for="fullpage-hover-toggle">Hover Mode</label>
+            <label class="switch">
+              <input type="checkbox" id="fullpage-hover-toggle">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <p class="hint">Hover Mode: Show translations only on hover</p>
+      </div>
+
+      <!-- Controls Section -->
+      <div class="fullpage-section">
+        <h2>🎮 Controls</h2>
+        <button id="fullpage-start-btn" class="fullpage-button">
+          ▶ Start Translation
+        </button>
+        <button id="fullpage-clear-btn" class="fullpage-button secondary">
+          ✕ Clear All Translations
+        </button>
+      </div>
+
+      <!-- Information Section -->
+      <div class="fullpage-section">
+        <h2>ℹ️ How to Use</h2>
+        <ol style="line-height: 1.8; color: #555;">
+          <li><strong>Open a Website</strong> - Visit any website with images (manga, comics, photos, etc.)</li>
+          <li><strong>Select Language</strong> - Choose your target language from the dropdown above</li>
+          <li><strong>Click Start Translation</strong> - The extension scans for images on the page</li>
+          <li><strong>Wait for Processing</strong> - Loading spinners appear on images while processing</li>
+          <li><strong>View Translations</strong> - Translations automatically overlay on the images</li>
+          <li><strong>Clear Anytime</strong> - Click "Clear All" to remove translations and start over</li>
+        </ol>
+      </div>
+
+      <!-- Features Section -->
+      <div class="fullpage-section">
+        <h2>✨ Features</h2>
+        <div class="fullpage-stats">
+          <div class="stat-card">
+            <div class="stat-value">10+</div>
+            <div class="stat-label">Languages</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">OCR</div>
+            <div class="stat-label">Japanese/English</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">Free</div>
+            <div class="stat-label">No API Key</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">Private</div>
+            <div class="stat-label">No Tracking</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Status Section -->
+      <div class="fullpage-section">
+        <h2>📊 Status</h2>
+        <div id="fullpage-status" class="status-box">
+          <p id="fullpage-status-text">Ready to translate images. Go to any website and click Start Translation.</p>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <div class="fullpage-section">
+        <h2>❓ FAQ</h2>
+        <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; line-height: 1.8;">
+          <p><strong>Q: Why is the extension so simple?</strong><br>
+          A: We focus on core functionality - no bloat, no tracking, no ads.</p>
+
+          <p><strong>Q: Does it work offline?</strong><br>
+          A: OCR works offline with Tesseract.js. Translation requires internet for LibreTranslate API.</p>
+
+          <p><strong>Q: Is my data safe?</strong><br>
+          A: Yes! OCR processes locally on your computer. Only extracted text is sent to translation API.</p>
+
+          <p><strong>Q: What languages are supported?</strong><br>
+          A: 10+ languages including Bengali, Hindi, Tamil, Spanish, French, German, and more.</p>
+
+          <p><strong>Q: Can I use it with hover mode?</strong><br>
+          A: Yes! Hover mode shows translations only when you hover over images for a cleaner look.</p>
+        </div>
+      </div>
+
+      <!-- Keyboard Shortcuts -->
+      <div class="fullpage-section">
+        <h2>⌨️ Tips</h2>
+        <ul style="color: #555; line-height: 1.8;">
+          <li>Use <strong>Hover Mode</strong> for a cleaner reading experience</li>
+          <li>Use <strong>Clear All</strong> to remove all overlays and start fresh</li>
+          <li>The floating button appears on every webpage for quick access</li>
+          <li>Settings are automatically saved between sessions</li>
+          <li>Works with images on any website (Instagram, Twitter, forums, etc.)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="fullpage-footer">
+      <p>🚀 AI Manga Image Translator v1.0.1</p>
+      <p style="font-size: 12px; margin: 10px 0 0 0; opacity: 0.8;">
+        Made with ❤️ for manga and translation lovers • No API Key Required • Privacy First
+      </p>
+    </div>
+  </div>
+
+  <script src="fullpage.js"></script>
+</body>
+</html>

@@ -1,23 +1,24 @@
-// Popup Script - UI Control and Settings
+// Fullpage Script - Full page UI control and settings
 
-class PopupController {
+class FullpageController {
   constructor() {
-    this.enableToggle = document.getElementById('enable-toggle');
-    this.languageSelect = document.getElementById('language-select');
-    this.hoverToggle = document.getElementById('hover-toggle');
-    this.startBtn = document.getElementById('start-btn');
-    this.clearBtn = document.getElementById('clear-btn');
-    this.statusText = document.getElementById('status-text');
+    this.enableToggle = document.getElementById('fullpage-enable-toggle');
+    this.languageSelect = document.getElementById('fullpage-language-select');
+    this.hoverToggle = document.getElementById('fullpage-hover-toggle');
+    this.startBtn = document.getElementById('fullpage-start-btn');
+    this.clearBtn = document.getElementById('fullpage-clear-btn');
+    this.statusText = document.getElementById('fullpage-status-text');
+    this.closeBtn = document.getElementById('close-fullpage');
     
     // Check if all elements exist
     if (!this.enableToggle || !this.languageSelect || !this.startBtn) {
-      console.error('PopupController: Missing required DOM elements');
+      console.error('FullpageController: Missing required DOM elements');
       return;
     }
   }
 
   /**
-   * Initialize popup controller
+   * Initialize fullpage controller
    */
   async init() {
     try {
@@ -27,9 +28,9 @@ class PopupController {
       // Setup event listeners
       this.setupEventListeners();
 
-      console.log('PopupController initialized');
+      console.log('FullpageController initialized');
     } catch (error) {
-      console.error('Failed to initialize PopupController:', error);
+      console.error('Failed to initialize FullpageController:', error);
       this.setStatus('Error loading settings', 'error');
     }
   }
@@ -62,17 +63,14 @@ class PopupController {
    */
   setupEventListeners() {
     if (!this.enableToggle || !this.languageSelect || !this.startBtn || !this.clearBtn) {
-      console.warn('PopupController: Some DOM elements missing, skipping event listener setup');
+      console.warn('FullpageController: Some DOM elements missing, skipping event listener setup');
       return;
     }
 
-    // Setup open fullpage button
-    const fullpageBtn = document.getElementById('open-fullpage');
-    if (fullpageBtn) {
-      fullpageBtn.addEventListener('click', () => {
-        chrome.tabs.create({
-          url: chrome.runtime.getURL('fullpage.html')
-        });
+    // Close button
+    if (this.closeBtn) {
+      this.closeBtn.addEventListener('click', () => {
+        window.close();
       });
     }
 
@@ -120,14 +118,14 @@ class PopupController {
    */
   updateContentScript() {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      if (tabs[0]) {
+      if (tabs[0] && tabs[0].id !== chrome.runtime.id) {
         chrome.tabs.sendMessage(tabs[0].id, {
           type: 'UPDATE_SETTINGS',
           isEnabled: this.enableToggle.checked,
           targetLanguage: this.languageSelect.value,
           hoverMode: this.hoverToggle.checked
-        }).catch(() => {
-          // Content script might not be loaded yet
+        }).catch((error) => {
+          console.warn('Could not update content script:', error);
         });
       }
     });
@@ -154,7 +152,7 @@ class PopupController {
           { type: 'START_TRANSLATION' },
           (response) => {
             if (response?.success) {
-              this.setStatus('Translation started! Check the page.', 'success');
+              this.setStatus('Translation started! Check the website.', 'success');
               setTimeout(() => {
                 this.startBtn.disabled = false;
               }, 2000);
@@ -165,7 +163,7 @@ class PopupController {
           }
         ).catch((error) => {
           this.setStatus(
-            'Content script not loaded. Refresh the page.',
+            'Content script not loaded. Go to a website first.',
             'error'
           );
           this.startBtn.disabled = false;
@@ -206,7 +204,7 @@ class PopupController {
     if (this.statusText) {
       this.statusText.textContent = message;
     }
-    const statusBox = document.getElementById('status');
+    const statusBox = document.getElementById('fullpage-status');
     if (statusBox) {
       statusBox.className = `status-box status-${type}`;
 
@@ -219,22 +217,21 @@ class PopupController {
   }
 }
 
-
-// Initialize popup controller when DOM is ready
+// Initialize fullpage controller when DOM is ready
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
     try {
-      const controller = new PopupController();
+      const controller = new FullpageController();
       controller.init();
     } catch (error) {
-      console.error('Popup initialization error:', error);
+      console.error('Fullpage initialization error:', error);
     }
   });
 } else {
   try {
-    const controller = new PopupController();
+    const controller = new FullpageController();
     controller.init();
   } catch (error) {
-    console.error('Popup initialization error:', error);
+    console.error('Fullpage initialization error:', error);
   }
 }

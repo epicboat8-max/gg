@@ -5,6 +5,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Manga Image Translator</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      width: 420px;
+      min-height: 500px;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    
+    .popup-container {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .popup-content {
+      overflow-y: auto;
+      max-height: calc(100vh - 200px);
+    }
+    
+    .fullpage-link {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 12px;
+      background: #34A853;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+      border: none;
+      text-align: center;
+    }
+    
+    .fullpage-link:hover {
+      background: #2d8e47;
+    }
+  </style>
 </head>
 <body>
   <div class="popup-container">
@@ -75,10 +114,17 @@
           <li>Translations appear on top of images</li>
         </ol>
       </div>
+
+      <!-- Open Fullpage Link -->
+      <div style="text-align: center; padding: 10px; border-top: 1px solid #eee;">
+        <button id="open-fullpage" class="fullpage-link">
+          📖 Open Full Page View
+        </button>
+      </div>
     </div>
 
     <div class="popup-footer">
-      <p>v1.0.0 • AI Manga Image Translator</p>
+      <p>v1.0.1 • AI Manga Image Translator</p>
     </div>
   </div>
 
