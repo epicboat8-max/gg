@@ -8,6 +8,12 @@ class PopupController {
     this.startBtn = document.getElementById('start-btn');
     this.clearBtn = document.getElementById('clear-btn');
     this.statusText = document.getElementById('status-text');
+    
+    // Check if all elements exist
+    if (!this.enableToggle || !this.languageSelect || !this.startBtn) {
+      console.error('PopupController: Missing required DOM elements');
+      return;
+    }
   }
 
   /**
@@ -55,6 +61,11 @@ class PopupController {
    * Setup event listeners
    */
   setupEventListeners() {
+    if (!this.enableToggle || !this.languageSelect || !this.startBtn || !this.clearBtn) {
+      console.warn('PopupController: Some DOM elements missing, skipping event listener setup');
+      return;
+    }
+
     this.enableToggle.addEventListener('change', (e) => {
       this.saveSettings({
         translationEnabled: e.target.checked
@@ -116,7 +127,9 @@ class PopupController {
    * Handle start translation button
    */
   onStartTranslation() {
-    if (!this.enableToggle.checked) {
+    if (!this.startBtn) return;
+    
+    if (!this.enableToggle || !this.enableToggle.checked) {
       this.setStatus('Translator is disabled. Enable it first.', 'warning');
       return;
     }
@@ -180,20 +193,38 @@ class PopupController {
    * Update status message
    */
   setStatus(message, type = 'info') {
-    this.statusText.textContent = message;
+    if (this.statusText) {
+      this.statusText.textContent = message;
+    }
     const statusBox = document.getElementById('status');
-    statusBox.className = `status-box status-${type}`;
+    if (statusBox) {
+      statusBox.className = `status-box status-${type}`;
 
-    if (type === 'success') {
-      setTimeout(() => {
-        statusBox.className = 'status-box';
-      }, 3000);
+      if (type === 'success') {
+        setTimeout(() => {
+          statusBox.className = 'status-box';
+        }, 3000);
+      }
     }
   }
 }
 
+
 // Initialize popup controller when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-  const controller = new PopupController();
-  controller.init();
-});
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    try {
+      const controller = new PopupController();
+      controller.init();
+    } catch (error) {
+      console.error('Popup initialization error:', error);
+    }
+  });
+} else {
+  try {
+    const controller = new PopupController();
+    controller.init();
+  } catch (error) {
+    console.error('Popup initialization error:', error);
+  }
+}
