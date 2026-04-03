@@ -10,8 +10,13 @@
     "storage"
   ],
   "host_permissions": [
-    "<all_urls>"
+    "<all_urls>",
+    "https://cdn.jsdelivr.net/*",
+    "https://libretranslate.de/*"
   ],
+  "content_security_policy": {
+    "script-src": ["'self'", "https://cdn.jsdelivr.net"]
+  },
   "background": {
     "service_worker": "background.js"
   },
