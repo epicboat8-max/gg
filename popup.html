@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Manga Image Translator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="popup-container">
+    <div class="popup-header">
+      <h1>Image Translator</h1>
+      <p class="subtitle">Translate text in images to Bengali</p>
+    </div>
+
+    <div class="popup-content">
+      <!-- Enable/Disable Toggle -->
+      <div class="setting-group">
+        <label for="enable-toggle">Enable Translator</label>
+        <label class="switch">
+          <input type="checkbox" id="enable-toggle" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <!-- Target Language Selector -->
+      <div class="setting-group">
+        <label for="language-select">Target Language</label>
+        <select id="language-select">
+          <option value="bn">Bengali (বাংলা)</option>
+          <option value="hi">Hindi (हिंदी)</option>
+          <option value="ta">Tamil (தமிழ்)</option>
+          <option value="te">Telugu (తెలుగు)</option>
+          <option value="es">Spanish (Español)</option>
+          <option value="fr">French (Français)</option>
+          <option value="de">German (Deutsch)</option>
+          <option value="pt">Portuguese (Português)</option>
+          <option value="zh">Chinese (中文)</option>
+          <option value="ko">Korean (한국어)</option>
+        </select>
+      </div>
+
+      <!-- Hover Mode Toggle -->
+      <div class="setting-group">
+        <label for="hover-toggle">Hover Mode</label>
+        <label class="switch">
+          <input type="checkbox" id="hover-toggle">
+          <span class="slider"></span>
+        </label>
+        <p class="hint">Show translation only on hover</p>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="button-group">
+        <button id="start-btn" class="btn btn-primary">
+          <span class="btn-icon">▶</span> Start Translation
+        </button>
+        <button id="clear-btn" class="btn btn-secondary">
+          <span class="btn-icon">✕</span> Clear All
+        </button>
+      </div>
+
+      <!-- Status Display -->
+      <div id="status" class="status-box">
+        <p id="status-text">Ready to translate. Click "Start Translation" to begin.</p>
+      </div>
+
+      <!-- Info Box -->
+      <div class="info-box">
+        <h3>How to use:</h3>
+        <ol>
+          <li>Select your target language</li>
+          <li>Click "Start Translation" button</li>
+          <li>Wait for images to be processed</li>
+          <li>Translations appear on top of images</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="popup-footer">
+      <p>v1.0.0 • AI Manga Image Translator</p>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
